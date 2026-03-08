@@ -108,4 +108,5 @@ jobs:
           10. limit to 5 jobs
           Output the final result (number of jobs validated).
           11. use company name as uppercase. if lowercase in solr please transform it to uppercase. we always want company name with uppercase in job and company schema
+          12. use User-Agent for OLX to mimic user browser calls. try to make olx work. there are multiple URLs that expired on olx. we need to validate them not to skip them
           "
