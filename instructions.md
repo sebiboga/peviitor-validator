@@ -30,7 +30,7 @@ curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
 |-------|------|----------|-------------|
 | `url` | string | Yes | Full URL to job detail page (unique key) |
 | `title` | text_general | Yes | Position title |
-| `company` | string | No | Hiring company name |
+| `company` | string | No | Hiring company name, Always use uppercase. |
 | `cif` | string | No | CIF/CUI of the company |
 | `location` | text_general | No | Romanian cities/addresses |
 | `tags` | text_general[] | No | Skills/education/experience |
@@ -46,7 +46,7 @@ curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | CIF/CUI (unique key) |
-| `company` | string | Yes | Legal name from Trade Register |
+| `company` | string | Yes | Legal name from Trade Register . always use uppercase.|
 | `brand` | string | No | Commercial brand name |
 | `group` | string | No | Parent company group |
 | `status` | string | No | "activ", "suspendat", "inactiv", "radiat" |
@@ -69,6 +69,7 @@ Navigate to the job's URL from the SOLR response.
 
 ### Step 3: Extract & Verify Data
 Follow the extraction process in AGENTS.md
+transform company name to uppercase
 
 ### Step 4: Push Updates to SOLR
 Use **atomic update** to add verified fields. Status should be set to "verified".
