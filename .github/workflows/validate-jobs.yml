@@ -107,4 +107,5 @@ jobs:
           
           10. limit to 5 jobs
           Output the final result (number of jobs validated).
+          11. use company name as uppercase. if lowercase in solr please transform it to uppercase. we always want company name with uppercase in job and company schema
           "
