@@ -16,18 +16,19 @@ When asked to read Solr schemas:
 
 ### Job Core
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/job/schema"
+curl -u $SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/job/schema"
 ```
 
 ### Company Core
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
+curl -u $_SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/company/schema"
 ```
 
 **Important**: 
-- Use `curl` with `-u solr:SolrRocks` for Basic Auth
+- Use `curl` with `-u $SOLR_USER:$SOLR_PASSWD` for Basic Auth
 - WebFetch alone won't work due to 401 errors - curl/bash is required
-- Do NOT use the username "solr:SolrRocks" in URL format - use `-u` flag instead
+- Do NOT use the username "$SOLR_USER:$SOLR_PASSWD" in URL format - use `-u` flag instead
+- you are running in PROD, be careful; you don't use localhost:8983
 
 ## 4. Key Differences from Documentation
 - The README in peviitor_core describes the conceptual model
@@ -35,7 +36,7 @@ curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
 - Some fields may differ slightly between conceptual and implementation
 
 ## 5. Authentication
-- Solr credentials: `solr` / `SolrRocks`
+- Solr credentials: `$SOLR_USER` / `$SOLR_PASSWD`
 - Always use Basic Auth via curl `-u` flag
 
 ## 6. Verification Workflow
