@@ -12,16 +12,16 @@ Read the README from peviitor-core to understand the data models:
 ### 2. Solr Schemas
 Access the live Solr instance to see the actual field definitions:
 - **Base URL**: https://solr.peviitor.ro
-- **Credentials**: `solr:SolrRocks`
+- **Credentials**: `$SOLR_USER:$SOLR_PASSWD`
 
 #### Job Core Schema
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/job/schema"
+curl -u $SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/job/schema"
 ```
 
 #### Company Core Schema
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
+curl -u $SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/company/schema"
 ```
 
 ## Job Model Fields (from Solr)
@@ -61,7 +61,7 @@ curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/company/schema"
 ### Step 1: Find Unverified Jobs in SOLR
 When starting a new verification session, query SOLR for jobs that are NOT verified:
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/job/select?q=status:scraped&wt=json&rows=1"
+curl -u $SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/job/select?q=status:scraped&wt=json&rows=1"
 ```
 
 ### Step 2: Open Job URL
@@ -77,7 +77,7 @@ Use **atomic update** to add verified fields. Status should be set to "verified"
 **Important**: Use atomic update with `{"set": "value"}` to preserve existing fields:
 
 ```bash
-curl -u solr:SolrRocks -X POST -H "Content-Type: application/json" \
+curl -u $SOLR_USER:$SOLR_PASSWD -X POST -H "Content-Type: application/json" \
   "https://solr.peviitor.ro/solr/job/update?commit=true" \
   -d "{\"add\": {\"doc\": {\"url\": \"<JOB_URL>\", \
   \"company\": {\"set\": \"<company>\"}, \
@@ -92,7 +92,7 @@ curl -u solr:SolrRocks -X POST -H "Content-Type: application/json" \
 ### Step 5: Verify the Update in SOLR
 Always query SOLR to confirm all fields were updated correctly:
 ```bash
-curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/job/select?q=url:<JOB_URL>&wt=json"
+curl -u $SOLR_USER:$SOLR_PASSWD "https://solr.peviitor.ro/solr/job/select?q=url:<JOB_URL>&wt=json"
 ```
 
 **Note**: Date fields (vdate, date, expirationdate) must use ISO8601 format: `YYYY-MM-DDTHH:MM:SSZ`
@@ -100,12 +100,12 @@ curl -u solr:SolrRocks "https://solr.peviitor.ro/solr/job/select?q=url:<JOB_URL>
 ### Step 6: Handle Expired Jobs
 If job is no longer available on the original URL:
 ```bash
-curl -u solr:SolrRocks -X POST -H "Content-Type: application/json" \
+curl -u $SOLR_USER:$SOLR_PASSWD -X POST -H "Content-Type: application/json" \
   "https://solr.peviitor.ro/solr/job/update?commit=true" \
   -d "{\"delete\": [\"<JOB_URL>\"]}"
 ```
 
 ## Notes
-- Use `curl` with `-u solr:SolrRocks` for authentication
+- Use `curl` with `-u $SOLR_USER:$SOLRPASSWD` for authentication
 - The Solr instance uses `text_general` field type for most text fields
 - Both cores have copy fields that aggregate text to `_text_` for full-text search
